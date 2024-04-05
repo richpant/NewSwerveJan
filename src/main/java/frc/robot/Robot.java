@@ -11,6 +11,17 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import java.io.File;
 import java.io.IOException;
+
+import com.ctre.phoenix6.StatusSignal;
+import com.ctre.phoenix6.configs.CANcoderConfiguration;
+import com.ctre.phoenix6.configs.CANcoderConfigurator;
+import com.ctre.phoenix6.configs.MagnetSensorConfigs;
+import com.ctre.phoenix6.hardware.CANcoder;
+import com.ctre.phoenix6.signals.AbsoluteSensorRangeValue;
+import com.ctre.phoenix6.signals.SensorDirectionValue;
+import com.revrobotics.AbsoluteEncoder;
+import com.ctre.phoenix.sensors.Pigeon2;
+
 import swervelib.parser.SwerveParser;
 
 /**
@@ -23,6 +34,8 @@ public class Robot extends TimedRobot
 
   private static Robot   instance;
   private        Command m_autonomousCommand;
+  private CANcoder    absoluteEncoder;
+
 
   private RobotContainer m_robotContainer;
 
@@ -51,6 +64,16 @@ public class Robot extends TimedRobot
     // Create a timer to disable motor brake a few seconds after disable.  This will let the robot stop
     // immediately when disabled, but then also let it be pushed more 
     disabledTimer = new Timer();
+
+    absoluteEncoder = new CANcoder(11);
+   CANcoderConfigurator cfg = absoluteEncoder.getConfigurator();
+   cfg.apply(new CANcoderConfiguration());
+   MagnetSensorConfigs  magnetSensorConfiguration = new MagnetSensorConfigs();
+   cfg.refresh(magnetSensorConfiguration);
+   cfg.apply(magnetSensorConfiguration
+                  .withAbsoluteSensorRange(AbsoluteSensorRangeValue.Unsigned_0To1)
+                  .withSensorDirection(SensorDirectionValue.CounterClockwise_Positive));
+                  
   }
 
   /**
@@ -68,6 +91,10 @@ public class Robot extends TimedRobot
     // and running subsystem periodic() methods.  This must be called from the robot's periodic
     // block in order for anything in the Command-based framework to work.
     CommandScheduler.getInstance().run();
+
+    StatusSignal<Double> angle = absoluteEncoder.getAbsolutePosition().waitForUpdate(0.1);
+
+   System.out.println("Absolute Encoder Angle: " + angle.getValue());
   }
 
   /**
