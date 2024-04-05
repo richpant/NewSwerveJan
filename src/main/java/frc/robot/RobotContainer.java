@@ -335,11 +335,12 @@ public class RobotContainer
     intitialX = x;
   }
 
-  public Command drive1 = drivebase.driveToPose(new Pose2d(new Translation2d(3,0), new Rotation2d(0)));
+  public Command drive0 = drivebase.driveToPose(new Pose2d(new Translation2d(3,0), new Rotation2d(0)));
   public Command reset = new InstantCommand(() -> drivebase.resetOdometry(new Pose2d(new Translation2d(0,0), new Rotation2d(0))));
-  public Command drive2 = drivebase.driveCommand(() -> -0.6, () -> 0, () -> 0);
   public Command driveStop = drivebase.driveCommand(() -> 0, () -> 0, () -> 0);
-  public Command drive3 = drivebase.driveCommandTimed(() -> -0.6, () -> 0, () -> 0);
+  public Command drive1 = drivebase.driveCommandTimed(() -> -0.6, () -> 0.6, () -> 0);
+  public Command drive2 = drivebase.driveCommandTimed(() -> -0.5, () -> 0, () -> 0);
+  public Command drive3 = drivebase.driveCommand(() -> -0.6, () -> 0, () -> 0);
   public void autoTest() {
     double timePeriodic = Timer.getFPGATimestamp();
     double time = timePeriodic - startTime;
