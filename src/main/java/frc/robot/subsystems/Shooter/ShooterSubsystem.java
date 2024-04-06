@@ -16,15 +16,19 @@ public class ShooterSubsystem extends SubsystemBase {
     }
 
     public Command ShooterStart() { 
-        m_shooterOne.set(-1);
-        m_shooterTwo.set(-1);
-        return null;
+      return this.runOnce(() -> {
+        m_shooterOne.set(-1.0);
+         m_shooterTwo.set(-1.0);
+      }           
+      );
     }
 
 
     public Command ShooterStop(){
-       m_shooterOne.set(0);
-        m_shooterTwo.set(0);
-        return null;
+       return this.runOnce(() -> {
+        m_shooterOne.set(0.0);
+         m_shooterTwo.set(0.0);
+      }           
+      );
     } 
 } 
