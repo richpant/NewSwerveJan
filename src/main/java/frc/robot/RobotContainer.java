@@ -36,7 +36,8 @@ import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.swervedrive.drivebase.AbsoluteDriveAdv;
 import frc.robot.subsystems.swervedrive.SwerveSubsystem;
 import frc.robot.subsystems.Intake.IntakeSubsystem;
-import frc.robot.subsystems.Shooter.*;
+import frc.robot.subsystems.Shooter.ShooterSubsystem;
+import frc.robot.subsystems.Arm.ArmSubsystem;
 //import frc.robot.subsystems.Shooter.ShooterSubsystem;
 import java.io.File;
 
@@ -105,6 +106,7 @@ public class RobotContainer
                                                                          "swerve"));
   private final IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
   private final ShooterSubsystem shooterSubsystem = new ShooterSubsystem();
+  private final ArmSubsystem armSubsystem = new ArmSubsystem();
   // CommandJoystick rotationController = new CommandJoystick(1);
   // Replace with CommandPS4Controller or CommandJoystick if needed
   CommandJoystick driverController = new CommandJoystick(1);
@@ -123,11 +125,14 @@ public class RobotContainer
   {
     drivebase.setupPathPlanner();
     
-    NamedCommands.registerCommand("intakeIn", intakeSubsystem.IntakeIn());
-    NamedCommands.registerCommand("intakeOut", intakeSubsystem.IntakeOut());
-    NamedCommands.registerCommand("intakeStop", intakeSubsystem.IntakeStop());
+    NamedCommands.registerCommand("IntakeIn", intakeSubsystem.IntakeIn());
+    NamedCommands.registerCommand("IntakeOut", intakeSubsystem.IntakeOut());
+    NamedCommands.registerCommand("IntakeStop", intakeSubsystem.IntakeStop());
     NamedCommands.registerCommand("ShooterStart", shooterSubsystem.ShooterStart());
     NamedCommands.registerCommand("ShooterStop", shooterSubsystem.ShooterStop());
+    NamedCommands.registerCommand("ArmUp", armSubsystem.ArmUp());
+    NamedCommands.registerCommand("ArmDown", armSubsystem.ArmDown());
+    NamedCommands.registerCommand("ArmStop", armSubsystem.ArmStop());
 
     
     autoChooser.addOption("Blue Mid", AutoBuilder.buildAuto("Blue_Mid"));
