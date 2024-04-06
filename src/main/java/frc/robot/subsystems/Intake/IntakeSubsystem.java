@@ -12,7 +12,6 @@ public class IntakeSubsystem extends SubsystemBase {
        
     public IntakeSubsystem() {
     }
-
     
     public Command IntakeIn() { 
         return this.runOnce(() -> m_intake.set(-1.0));

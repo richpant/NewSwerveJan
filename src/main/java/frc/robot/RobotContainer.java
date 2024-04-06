@@ -80,27 +80,6 @@ public class RobotContainer
   UsbCamera camera2;
   VideoSink server;
 
-  
-  
-    
- 
-
-
-
-//INTAKE intake = new INTAKE();
-  /*
-  private static final IntakeSubsystem INTAKE_SUBSYSTEM = new IntakeSubsystem(
-    IntakeSubsystem.initializeHardware(),
-    Constants.Intake.INTAKE_VELOCITY
-  );
-  */
-
-
-
-
-
-
-
   // The robot's subsystems and commands are defined here...
   private final SwerveSubsystem drivebase = new SwerveSubsystem(new File(Filesystem.getDeployDirectory(),
                                                                          "swerve"));
@@ -135,21 +114,8 @@ public class RobotContainer
     NamedCommands.registerCommand("ArmStop", armSubsystem.ArmStop());
 
     
-    autoChooser.addOption("Blue Mid", AutoBuilder.buildAuto("Blue_Mid"));
+    autoChooser.addOption("BlueMid", AutoBuilder.buildAuto("BlueMid"));
     SmartDashboard.putData("Auto Chooser", autoChooser);
-    // Register Named Commands
-    
-   
-   
-   
-    
-
-
-
-
-
-    
-    // ...
 
     // Build an auto chooser. This will use Commands.none() as the default option.
     
@@ -158,7 +124,6 @@ public class RobotContainer
     // autoChooser = AutoBuilder.buildAutoChooser("My Default Auto");
 
     SmartDashboard.putData("Auto Chooser", autoChooser);
-
 
 
 
