@@ -13,18 +13,17 @@ public class IntakeSubsystem extends SubsystemBase {
     public IntakeSubsystem() {
     }
 
+    
     public Command IntakeIn() { 
-        m_intake.set(-1);
-        return null;
+        return this.runOnce(() -> m_intake.set(-1.0));
     }
 
     public Command IntakeOut(){
-        m_intake.set(1);
-        return null;
+        return this.runOnce(() -> m_intake.set(1.0));
     }
 
     public Command IntakeStop(){
-        m_intake.set(0);
-        return null;
+        return this.runOnce(() -> m_intake.set(0.0));
     }
+
 }

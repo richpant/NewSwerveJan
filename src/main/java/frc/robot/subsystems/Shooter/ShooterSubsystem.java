@@ -26,5 +26,5 @@ public class ShooterSubsystem extends SubsystemBase {
        m_shooterOne.set(0);
         m_shooterTwo.set(0);
         return null;
-    }
+    } 
 } 
