@@ -35,7 +35,8 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.swervedrive.drivebase.AbsoluteDriveAdv;
 import frc.robot.subsystems.swervedrive.SwerveSubsystem;
-import frc.robot.subsystems.Intake.IntakeSubsytem;
+import frc.robot.subsystems.Intake.IntakeSubsystem;
+import frc.robot.subsystems.Shooter.*;
 //import frc.robot.subsystems.Shooter.ShooterSubsystem;
 import java.io.File;
 
@@ -78,6 +79,11 @@ public class RobotContainer
   UsbCamera camera2;
   VideoSink server;
 
+  
+  
+    
+ 
+
 
 
 //INTAKE intake = new INTAKE();
@@ -97,6 +103,8 @@ public class RobotContainer
   // The robot's subsystems and commands are defined here...
   private final SwerveSubsystem drivebase = new SwerveSubsystem(new File(Filesystem.getDeployDirectory(),
                                                                          "swerve"));
+  private final IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
+  private final ShooterSubsystem shooterSubsystem = new ShooterSubsystem();
   // CommandJoystick rotationController = new CommandJoystick(1);
   // Replace with CommandPS4Controller or CommandJoystick if needed
   CommandJoystick driverController = new CommandJoystick(1);
@@ -108,11 +116,28 @@ public class RobotContainer
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
-
-  private final SendableChooser<Command> autoChooser;
+  private SendableChooser<Command> autoChooser = new SendableChooser<>();
+  
 
   public RobotContainer()
   {
+    drivebase.setupPathPlanner();
+    
+    NamedCommands.registerCommand("intakeIn", intakeSubsystem.IntakeIn());
+    NamedCommands.registerCommand("intakeOut", intakeSubsystem.IntakeOut());
+    NamedCommands.registerCommand("intakeStop", intakeSubsystem.IntakeStop());
+    NamedCommands.registerCommand("ShooterStart", shooterSubsystem.ShooterStart());
+    NamedCommands.registerCommand("ShooterStop", shooterSubsystem.ShooterStop());
+
+    
+    autoChooser.addOption("Blue Mid", AutoBuilder.buildAuto("Blue_Mid"));
+    SmartDashboard.putData("Auto Chooser", autoChooser);
+    // Register Named Commands
+    
+   
+   
+   
+    
 
 
 
@@ -122,7 +147,7 @@ public class RobotContainer
     // ...
 
     // Build an auto chooser. This will use Commands.none() as the default option.
-    autoChooser = AutoBuilder.buildAutoChooser("Blue_Mid");
+    
 
     // Another option that allows you to specify the default auto by its name
     // autoChooser = AutoBuilder.buildAutoChooser("My Default Auto");
@@ -138,6 +163,7 @@ public class RobotContainer
 
     // Configure the trigger bindings
     configureBindings();
+    ;
 
     AbsoluteDriveAdv closedAbsoluteDriveAdv = new AbsoluteDriveAdv(drivebase,
                                                                    () -> MathUtil.applyDeadband(driverXbox.getLeftY(),
@@ -191,11 +217,9 @@ public class RobotContainer
 
     //IntakeSubsystem closedIntakeSubsystem = new IntakeSubsystem();
 
-    // Register Named Commands
-    //NamedCommands.registerCommand("intake", IntakeSubsystem.intakeCommand());
-    //NamedCommands.registerCommand("armDown", ArmSubsystem.armMotor);
-    //NamedCommands.registerCommand("shooterSpinUp", ShooterSubsystem.shooterMotor);
-    //NamedCommands.registerCommand(Constants.NamedCommands.INTAKE_COMMAND_NAME, autoIntakeCommand().withTimeout(7));    
+    
+
+    //(Constants.NamedCommands.INTAKE_COMMAND_NAME, autoIntakeCommand().withTimeout(7));    
     
     
     
@@ -223,7 +247,7 @@ public class RobotContainer
     new JoystickButton(driverXbox, 2).whileTrue(
         Commands.deferredProxy(() -> drivebase.driveToPose(new Pose2d(new Translation2d(4, 4), Rotation2d.fromDegrees(0)))));
 
-
+    
     //new JoystickButton(driverXbox, 6).whileFalse(new InstantCommand(() -> drivebase.maximumSpeed = 1.5));
     /*
         if (driverXbox.getLeftBumper()) {
@@ -341,6 +365,9 @@ public class RobotContainer
   public Command drive1 = drivebase.driveCommandTimed(() -> -0.6, () -> 0.6, () -> 0);
   public Command drive2 = drivebase.driveCommandTimed(() -> -0.5, () -> 0, () -> 0);
   public Command drive3 = drivebase.driveCommand(() -> -0.6, () -> 0, () -> 0);
+
+
+
   public void autoTest() {
     double timePeriodic = Timer.getFPGATimestamp();
     double time = timePeriodic - startTime;
@@ -648,13 +675,7 @@ public class RobotContainer
     m_armLeftMotor.set(controlXbox.getLeftY()*.4);
     m_armRightMotor.set(-controlXbox.getLeftY()*.4);
 
-    if (driverXbox.getLeftBumper()) {
-      drivebase.maximumSpeed = 0.75;
-    } else if (driverXbox.getRightBumper()) {
-      drivebase.maximumSpeed = 5;
-    } else {
-      drivebase.maximumSpeed = 3;
-    }
+   
 
 
 
@@ -713,5 +734,9 @@ public class RobotContainer
         m_shooterTwo.set(0.0);
 
     }
+  }
+
+  public Command getAutoCommand(){
+    return autoChooser.getSelected();
   }
 }

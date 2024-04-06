@@ -28,6 +28,7 @@ public final class Constants
   public static final int shooterOneID = 14;
   public static final int shooterTwoID = 15;
   public static final int PWMSparkIntakeChannel = 0;
+  
 
   public static final class Auton
   {
@@ -36,6 +37,13 @@ public final class Constants
     public static final PIDFConfig angleAutoPID   = new PIDFConfig(0.4, 0, 0.01);
 
     public static final double MAX_ACCELERATION = 2;
+  }
+  
+  public static final class IntakeConstants
+  {
+
+    public static final double INTAKE_SPEED = -1;
+    public static final double OUTTAKE_SPEED = 1;
   }
 
   public static final class Drivebase

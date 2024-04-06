@@ -41,7 +41,7 @@
             {
               "type": "named",
               "data": {
-                "name": "shooterSpinUp"
+                "name": null
               }
             }
           ]
@@ -58,7 +58,7 @@
             {
               "type": "named",
               "data": {
-                "name": "intake"
+                "name": null
               }
             }
           ]

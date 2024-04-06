@@ -41,13 +41,13 @@
             {
               "type": "named",
               "data": {
-                "name": "armDown"
+                "name": null
               }
             },
             {
               "type": "named",
               "data": {
-                "name": "intakeIn"
+                "name": null
               }
             }
           ]
